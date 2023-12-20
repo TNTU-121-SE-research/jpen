@@ -45,6 +45,11 @@ Replace `username` with your GitHub username and `token` with a PAT (look at ste
 2. Build the project using Maven:
 ```bash
 mvn clean install
+mvn clean nar:nar-compile
+mvn clean nar:nar-test
+mvn clean 
+mvn clean nar:nar-gnu-make
+
 ```
 3. Deploy the artifact to GitHub Packages using the following command:
 ```bash
