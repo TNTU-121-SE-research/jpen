@@ -10,7 +10,7 @@ To deploy the project you need to follow these steps:
 ### Prerequisites
 
 1. Make sure you have [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) 
-installed on your system (JDK version recommended 1.8).
+installed on your system (JDK version 1.8 is required!!!).
 2. Ensure that [Apache Maven 3.6.3](https://maven.apache.org/download.cgi) is installed. 
 Maven is used for building and managing dependencies.
 3. Create a [GitHub personal access token (PAT)](https://github.com/settings/tokens) that has 
