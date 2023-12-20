@@ -15,7 +15,11 @@ installed on your system (JDK version 1.8 is required!!!).
 Maven is used for building and managing dependencies.
 3. Create a [GitHub personal access token (PAT)](https://github.com/settings/tokens) that has 
 the `read:packages` and `write:packages` scopes.
-4. Native libs build for linux (Ubuntu): `apt-get install libxi-dev`
+4. Native libs build for linux (Ubuntu): 
+```
+apt-get install libxi-dev
+apt install binutils-mingw-w64
+```
 5. Configure authentication for GitHub Packages. Create or update the `~/.m2/settings.xml` file and add the following lines:
 
 ```xml
