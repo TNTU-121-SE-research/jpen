@@ -96,7 +96,7 @@ along with jpen.  If not, see <http://www.gnu.org/licenses/>.
             <plugin>
                 <groupId>com.github.maven-nar</groupId>
                 <artifactId>nar-maven-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.10.1</version>
                 <extensions>true</extensions>
                 <configuration>
                     <java>
@@ -169,7 +169,7 @@ along with jpen.  If not, see <http://www.gnu.org/licenses/>.
                     <plugin>
                         <groupId>com.github.maven-nar</groupId>
                         <artifactId>nar-maven-plugin</artifactId>
-                        <version>3.2.3</version>
+                        <version>3.10.1</version>
                         <extensions>true</extensions>
                         <configuration>
                             <output>jpen-${module.version}-${jpen.provider.xinput.nativeVersion}-x86_64</output>

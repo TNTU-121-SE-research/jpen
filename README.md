@@ -48,7 +48,7 @@ mvn clean install
 mvn clean nar:nar-compile
 mvn clean nar:nar-test
 mvn clean 
-mvn clean nar:nar-gnu-make
+mvn compile nar:nar-package
 
 ```
 3. Deploy the artifact to GitHub Packages using the following command:
