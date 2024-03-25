@@ -18,37 +18,77 @@ along with jpen.  If not, see <http://www.gnu.org/licenses/>.
 }] */
 package jpen.demo;
 
-import java.awt.Component;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
+import jpen.demo.files.FileManager;
 
-class MainPanel{
-	private final JTabbedPane tabbedPane=new JTabbedPane(JTabbedPane.TOP);
-	final Box panel=Box.createVerticalBox();
-	final DevicesPanel devicesPanel;
+import javax.swing.*;
+import java.awt.*;
 
-	MainPanel(){
-		JSplitPane canvasesPane=new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		canvasesPane.setLeftComponent(new PenCanvas().scrollPane);
-		canvasesPane.setRightComponent(new PenCanvas().scrollPane);
-		//canvasesPane.setContinuousLayout(true);
-		canvasesPane.setOneTouchExpandable(true);
-		canvasesPane.setAlignmentX(Component.CENTER_ALIGNMENT);
-		canvasesPane.setBorder(BorderFactory.createTitledBorder("Pen Enabled Components"));
-		panel.add(canvasesPane);
+class MainPanel {
+    private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+    final Box panel = Box.createVerticalBox();
+    final DevicesPanel devicesPanel;
 
-		StatePanel statePanel=new StatePanel();
-		tabbedPane.addTab("Pen", statePanel.panel);
+    private final PenCanvas canvas;
+    private JToolBar toolBar;
 
-		devicesPanel=new DevicesPanel();
-		//devicesPanel.panel.setBorder(BorderFactory.createTitledBorder("Devices"));
-		tabbedPane.addTab("Input Devices", devicesPanel.panel);
+    private final FileManager fileManager;
 
-		tabbedPane.setMaximumSize(tabbedPane.getPreferredSize());
+    MainPanel() {
+        initializeToolbar();
 
-		tabbedPane.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel.add(tabbedPane);
-	}
+        canvas = new PenCanvas();
+
+        JSplitPane canvasesPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        canvasesPane.setLeftComponent(canvas.scrollPane);
+        canvasesPane.setRightComponent(toolBar);
+        //canvasesPane.setContinuousLayout(true);
+        canvasesPane.setOneTouchExpandable(true);
+        canvasesPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        canvasesPane.setBorder(BorderFactory.createTitledBorder("Pen Enabled Components"));
+        panel.add(canvasesPane);
+
+        StatePanel statePanel = new StatePanel();
+        tabbedPane.addTab("Pen", statePanel.panel);
+
+        devicesPanel = new DevicesPanel();
+        //devicesPanel.panel.setBorder(BorderFactory.createTitledBorder("Devices"));
+        tabbedPane.addTab("Input Devices", devicesPanel.panel);
+
+        tabbedPane.setMaximumSize(tabbedPane.getPreferredSize());
+
+        tabbedPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(tabbedPane);
+
+        fileManager = new FileManager();
+    }
+
+    private void initializeToolbar() {
+        toolBar = new JToolBar();
+
+        final JButton startRecordingButton = new JButton("Start");
+        startRecordingButton.addActionListener(e -> canvas.startRecording());
+        toolBar.add(startRecordingButton);
+
+        final JButton stopRecordingButton = new JButton("Stop");
+        stopRecordingButton.addActionListener(e -> canvas.stopRecording());
+        toolBar.add(stopRecordingButton);
+
+        final JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(e -> saveData());
+        toolBar.add(saveButton);
+    }
+
+    private void saveData() {
+        if (canvas.hasRecordedTrajectory()) {
+            var data = canvas.exportData();
+            var startTime = canvas.getStartTime();
+            var center = canvas.getCenter();
+
+            fileManager.writeToFile(data, startTime, center);
+
+            JOptionPane.showMessageDialog(toolBar, "Record was saved");
+        } else {
+            System.out.println("Saving empty trajectory");
+        }
+    }
 }
