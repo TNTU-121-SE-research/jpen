@@ -5,10 +5,12 @@ import jpen.demo.files.Clock;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Locale;
+import java.util.Optional;
 
 public record SavedPoint(
         long scheduledTime,
         long registeredTime,
+        long systemTime,
         double x,
         double y,
         double tiltX,
@@ -20,6 +22,7 @@ public record SavedPoint(
             Point2D.Double inputRatio,
             long recordingStartTime,
             PointTime previousTime,
+            Optional<Long> availableMs,
             String delimiter
     ) {
         var scheduledTimeSinceStart = Clock.calculatePeriodAsString(recordingStartTime, scheduledTime);
@@ -30,11 +33,14 @@ public record SavedPoint(
 
         var relative = getRelativeTo(center, inputRatio);
 
+        var availableMsAsString = availableMs.map(Object::toString).orElse("-");
+
         return String.join(delimiter,
                 registeredTimeSinceStart,
                 scheduledTimeSinceStart,
                 registeredTimeDelta,
                 scheduledTimeDelta,
+                availableMsAsString,
                 str(relative.x),
                 str(relative.y),
                 str(tiltX),

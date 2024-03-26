@@ -37,6 +37,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 class PenCanvas
@@ -69,6 +71,7 @@ class PenCanvas
     private final Point center = new Point(0, 0);
 
     private final ArrayList<SavedPoint> points = new ArrayList<>();
+    private final Map<Long, Long> availableMsData = new HashMap<>();
 
     PenCanvas() {
         Utils.freezeSize(this, SIZE);
@@ -122,6 +125,8 @@ class PenCanvas
                 if (isDirty)
                     repaint(dirtyArea.x, dirtyArea.y, dirtyArea.width, dirtyArea.height);
                 isDirty = false;
+
+                availableMsData.put(System.currentTimeMillis(), availableTime);
             }
 
             @Override
@@ -215,6 +220,7 @@ class PenCanvas
             var point = new SavedPoint(
                     e.getTime(),
                     e.getDeviceTime(),
+                    System.currentTimeMillis(),
                     e.pen.getLevelValue(PLevel.Type.X),
                     e.pen.getLevelValue(PLevel.Type.Y),
                     e.pen.getLevelValue(PLevel.Type.TILT_X),
@@ -243,6 +249,10 @@ class PenCanvas
 
     public ArrayList<SavedPoint> exportData() {
         return points;
+    }
+
+    public Map<Long, Long> exportAvailableMsData() {
+        return availableMsData;
     }
 
     public long getStartTime() {

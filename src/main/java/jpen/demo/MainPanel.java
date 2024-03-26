@@ -81,10 +81,11 @@ class MainPanel {
     private void saveData() {
         if (canvas.hasRecordedTrajectory()) {
             var data = canvas.exportData();
+            var availableMsData = canvas.exportAvailableMsData();
             var startTime = canvas.getStartTime();
             var center = canvas.getCenter();
 
-            fileManager.writeToFile(data, startTime, center);
+            fileManager.writeToFile(data, availableMsData, startTime, center);
 
             JOptionPane.showMessageDialog(toolBar, "Record was saved");
         } else {
